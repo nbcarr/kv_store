@@ -1,4 +1,4 @@
-# Key-Value Store Server
+# TCP Key-Value Store
 A multi-threaded TCP server implementing a persistent key-value store, built in C++
 
 ## Features
