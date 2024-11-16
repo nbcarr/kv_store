@@ -14,7 +14,7 @@ g++ -std=c++11 -pthread server.cpp -o server
 ```
 
 ## Usage
-Start the server:
+Start the server, which listens on port `3490` by default:
 ```bash
 ./server
 ```
@@ -28,6 +28,10 @@ python3 python_client.py
 The server accepts the following commands:
 
 SET <key> <value>: Store a value
+
 GET <key>: Retrieve a value
+
 REMOVE <key>: Delete a value
+
 PRINT: Display all key-value pairs
+
