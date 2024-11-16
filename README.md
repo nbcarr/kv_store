@@ -19,7 +19,7 @@ Start the server, which listens on port `3490` by default:
 ./server
 ```
 
-See python_client.py for sample client that connects to the server:
+See [python_client.py](https://github.com/nbcarr/kv_store/blob/main/python_client.py) for sample client that connects to the server:
 ```bash
 python3 python_client.py
 ```
