@@ -16,6 +16,7 @@
 // TODO:
 // - remove trailing and leading whitespace from key/value
 // - add command/key/value size validation
+// - ensure keys/values are alphanumeric
 #define PORT "3490"
 
 class NetworkException : public std::runtime_error {
@@ -227,6 +228,7 @@ private:
     struct addrinfo m_hints;
     struct sockaddr_storage m_client_addr;
 
+    // See: https://beej.us/guide/bgnet/html/#client-server-background
     void setupServer() {
         struct addrinfo *servInfo, *p;
         int status;
@@ -260,7 +262,7 @@ private:
 
 
     void handleClient(int client_fd) {
-        std::array<char, BUF_SIZE> recv_buf;
+        std::array<char, BUF_SIZE> recv_buf; // each thread needs it's own receive buffer
         
         while(true) {
             try {
@@ -325,7 +327,12 @@ public:
             try {
                 socklen_t addr_size = sizeof(m_client_addr);
                 int client_fd = accept(m_sock_fd, (struct sockaddr*)&m_client_addr, &addr_size);
-                
+
+                std::string con_ip;
+                con_ip.resize(INET_ADDRSTRLEN);
+                inet_ntop(m_client_addr.ss_family, (struct sockaddr*)&m_client_addr, &con_ip[0], INET_ADDRSTRLEN);
+                std::cout << "Server got connection from " << con_ip << std::endl;
+
                 if (client_fd == -1) {
                     throw ConnectionException("Failed to accept connection: " + std::string(strerror(errno)));
                 }
